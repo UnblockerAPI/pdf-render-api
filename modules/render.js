@@ -6,11 +6,17 @@ const pool = initPuppeteerPool({
     puppeteerArgs: {
         userDataDir: path.join(process.cwd(), 'tmp'),
         ignoreHTTPSErrors: true,
-        headless: false,
-        executablePath: process.env.GOOGLE_CHROME_SHIM || undefined,
+        headless: true,
+        slowMo: 0,
         args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-gpu',
+            '--disable-dev-shm-usage',
             '--proxy-server="direct://"',
-            '--proxy-bypass-list=*'
+            '--proxy-bypass-list=*',
+            '--mute-audio',
+            '--hide-scrollbars'
         ]
     }
 });
