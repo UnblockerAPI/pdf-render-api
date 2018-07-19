@@ -6,17 +6,11 @@ const pool = initPuppeteerPool({
     puppeteerArgs: {
         userDataDir: path.join(process.cwd(), 'tmp'),
         ignoreHTTPSErrors: true,
-        headless: true,
-        slowMo: 0,
+        headless: false,
+        executablePath: 'google-chrome-unstable',
         args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-gpu',
-            '--disable-dev-shm-usage',
             '--proxy-server="direct://"',
-            '--proxy-bypass-list=*',
-            '--mute-audio',
-            '--hide-scrollbars'
+            '--proxy-bypass-list=*'
         ]
     }
 });
