@@ -73,7 +73,7 @@ app.get('/', async (req, res) => {
         if (contentTypeHeaderExists) {
             let contentType = headers["content-type"];
 
-            if (contentType !== "text/html") {
+            if (!contentType.includes("text/html")) {
                 return res.status(400).json({ success: false, reason: "NothingToRender" });
             }
 
