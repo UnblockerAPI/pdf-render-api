@@ -52,7 +52,17 @@
             }
 
             try {
-                var fallbackUrlObject = new URL(fallbackUrlQuery);
+                if (/magnet:\?xt=urn:[a-z0-9]+:[a-zA-Z0-9]*/.test(fallbackUrlQuery)) {
+                    var fallbackUrlObject = {
+                        get href() {
+                            return fallbackUrlQuery;
+                        }
+                    }
+
+                } else {
+                    var fallbackUrlObject = new URL(fallbackUrlQuery);
+                }
+
                 parent.location.href = fallbackUrlObject.href;
 
             } catch (err) {

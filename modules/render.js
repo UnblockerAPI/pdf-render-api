@@ -50,7 +50,12 @@ module.exports = async ({ url, linkBase }) => {
 
                         for (let i = 0; i < links.length; i++) {
                             try {
-                                links[i].href = `${linkBase}?url=${new URL(links[i].href, location.href).href}`;
+                                if (/magnet:\?xt=urn:[a-z0-9]+:[a-zA-Z0-9]*/.test(links[i].href)) {
+                                    links[i].href = `${linkBase}?url=${links[i].href}`;
+
+                                } else {
+                                    links[i].href = `${linkBase}?url=${new URL(links[i].href, location.href).href}`;
+                                }
 
                             } catch (err) {
                                 continue;
