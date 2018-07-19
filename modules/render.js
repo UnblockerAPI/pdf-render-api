@@ -7,7 +7,7 @@ const pool = initPuppeteerPool({
         userDataDir: path.join(process.cwd(), 'tmp'),
         ignoreHTTPSErrors: true,
         headless: false,
-        executablePath: 'google-chrome-unstable',
+        executablePath: process.env.GOOGLE_CHROME_SHIM,
         args: [
             '--proxy-server="direct://"',
             '--proxy-bypass-list=*'
