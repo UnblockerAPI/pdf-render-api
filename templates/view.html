@@ -52,15 +52,15 @@
             }
 
             try {
-                if (/magnet:\?xt=urn:[a-z0-9]+:[a-zA-Z0-9]*/.test(fallbackUrlQuery)) {
+                if (/magnet:\?xt=urn:[a-z0-9]+:[a-zA-Z0-9]*/.test(atob(fallbackUrlQuery))) {
                     var fallbackUrlObject = {
                         get href() {
-                            return fallbackUrlQuery;
+                            return atob(fallbackUrlQuery);
                         }
                     }
 
                 } else {
-                    var fallbackUrlObject = new URL(fallbackUrlQuery);
+                    var fallbackUrlObject = new URL(atob(fallbackUrlQuery));
                 }
 
                 parent.location.href = fallbackUrlObject.href;

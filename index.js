@@ -29,7 +29,7 @@ app.use(compression());
 
 app.get('/', async (req, res) => {
     try {
-        let targetUrl = new URL(req.query.url);
+        let targetUrl = new URL(Buffer.from(req.query.url, 'base64').toString('ascii'));
         let shouldDisplay = /^true$/.test(req.query.display);
 
         let keyExists = await RENDER_CACHE.hasKey(targetUrl.href);

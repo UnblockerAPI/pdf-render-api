@@ -51,13 +51,13 @@ module.exports = async ({ url, linkBase }) => {
                         for (let i = 0; i < links.length; i++) {
                             try {
                                 if (/magnet:\?xt=urn:[a-z0-9]+:[a-zA-Z0-9]*/.test(links[i].href)) {
-                                    links[i].href = `${linkBase}?url=${links[i].href}`;
+                                    links[i].href = `${linkBase}?url=${btoa(links[i].href)}`;
 
                                 } else {
-                                    links[i].href = `${linkBase}?url=${new URL(links[i].href, location.href).href}`;
+                                    links[i].href = `${linkBase}?url=${btoa(new URL(links[i].href, location.href).href)}`;
                                 }
 
-                            } catch (err) {
+                            } catch (e) {
                                 continue;
                             }
                         }
@@ -78,8 +78,8 @@ module.exports = async ({ url, linkBase }) => {
                 page.close();
                 return result({ pdfDestination: output });
 
-            } catch (err) {
-                console.log(err);
+            } catch (e) {
+                console.log(e);
                 page.close();
                 return result({ pdfDestination: null });
             }
