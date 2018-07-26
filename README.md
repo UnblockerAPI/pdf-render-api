@@ -6,3 +6,4 @@ Website rendering API
 ### `GET`:
 * `/?url=<String>` - where `url` is **Base64** encoded url. Returns `{ success: Boolean, pdfLocation: String, fromCache: Boolean }`
 * `...&display=<Boolean>` - returns HTML, which embeds PDF from `pdfLocation` into the page
+* `...&force=<Boolean>` - ignores existence of rendered PDF

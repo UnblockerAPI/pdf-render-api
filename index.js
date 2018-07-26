@@ -31,10 +31,11 @@ app.get('/', async (req, res) => {
     try {
         let targetUrl = new URL(Buffer.from(req.query.url, 'base64').toString('ascii'));
         let shouldDisplay = /^true$/.test(req.query.display);
+        let shouldForceRender = /^true$/.test(req.query.force);
 
         let keyExists = await RENDER_CACHE.hasKey(targetUrl.href);
 
-        if (keyExists) {
+        if (!shouldForceRender && keyExists) {
             let { entryStillValid, entry } = await new Promise(async resolve => {
                 let entry = await RENDER_CACHE.getKey(targetUrl.href);
 
@@ -60,6 +61,9 @@ app.get('/', async (req, res) => {
 
                 return res.status(200).json({ success: true, pdfLocation: entry, fromCache: true });
             }
+
+        } else if (shouldForceRender && keyExists) {
+            RENDER_CACHE.deleteKey(targetUrl.href);
         }
 
         let { isOk, headers } = await utils.checkAvailability({ url: targetUrl.href });
