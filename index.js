@@ -6,7 +6,7 @@ const path = require('path');
 
 
 let isProduction = process.env.NODE_ENV === 'production';
-let PORT = isProduction ? '/tmp/nginx.socket' : 8080;
+let PORT = isProduction ? '/tmp/nginx.socket' : 5000;
 let linkBase = isProduction ? 'https://unblocker-webapp.herokuapp.com' : `http://127.0.0.1:${PORT}`;
 let callbackFn = () => {
     if (isProduction) {
@@ -38,11 +38,6 @@ app.get('/', async (req, res) => {
         if (!shouldForceRender && keyExists) {
             let { entryStillValid, entry } = await new Promise(async resolve => {
                 let entry = await RENDER_CACHE.getKey(targetUrl.href);
-
-                if (!entry) {
-                    RENDER_CACHE.deleteKey(targetUrl.href);
-                    return resolve({ entryStillValid: false, entry: null });
-                }
 
                 let { isOk } = await utils.checkAvailability({ url: entry });
 
