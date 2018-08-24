@@ -6,8 +6,8 @@ const path = require('path');
 
 
 let isProduction = process.env.NODE_ENV === 'production';
-let PORT = isProduction ? '/tmp/nginx.socket' : 5000;
-let linkBase = isProduction ? 'https://unblocker-webapp.herokuapp.com' : `http://127.0.0.1:${PORT}`;
+let PORT = isProduction ? '/tmp/nginx.socket' : 8080;
+let linkBase = isProduction ? 'https://unblocker.now.sh' : `http://127.0.0.1:${PORT}`;
 let callbackFn = () => {
     if (isProduction) {
         fs.closeSync(fs.openSync('/tmp/app-initialized', 'w'));
