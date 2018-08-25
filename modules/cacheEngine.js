@@ -7,7 +7,7 @@ module.exports = isProduction => {
         }
 
         setKey(key, value) {
-            return this.client.set(key, value, 'EX', 60 * 60 * 24 * 2);
+            return this.client.set(key, value, 'EX', 60 * 60 * 24 * 3);
         }
 
         deleteKey(key) {
