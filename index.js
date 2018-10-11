@@ -39,7 +39,7 @@ app.get('/', async (req, res) => {
             let { entryStillValid, entry } = await new Promise(async resolve => {
                 let entry = await RENDER_CACHE.getKey(targetUrl.href);
 
-                let { isOk } = await utils.checkAvailability({ url: entry });
+                let { isOk } = await utils.checkAvailability(entry);
 
                 if (!isOk) {
                     RENDER_CACHE.deleteKey(targetUrl.href);
@@ -61,7 +61,7 @@ app.get('/', async (req, res) => {
             RENDER_CACHE.deleteKey(targetUrl.href);
         }
 
-        let { isOk, headers } = await utils.checkAvailability({ url: targetUrl.href });
+        let { isOk, headers } = await utils.checkAvailability(targetUrl.href);
 
         if (!isOk) {
             return res.status(400).json({ success: false, reason: "Non200StatusCode" });
@@ -79,7 +79,7 @@ app.get('/', async (req, res) => {
             let { pdfDestination } = await render({ url: targetUrl.href, linkBase: linkBase });
 
             if (pdfDestination) {
-                let { failed, uploadResult } = await utils.uploadPdf({ file: pdfDestination });
+                let { failed, uploadResult } = await utils.upload({ file: pdfDestination });
 
                 if (!failed && uploadResult.success) {
                     fs.unlinkSync(pdfDestination);

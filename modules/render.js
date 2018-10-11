@@ -33,6 +33,7 @@ module.exports = async ({ url, linkBase }) => {
             await page.setDefaultNavigationTimeout(10000);
             await page._client.send('Page.setDownloadBehavior', { behavior: 'deny' });
             await page._client.send('Page.setAdBlockingEnabled', { enabled: true });
+            await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3563.0 Safari/537.36');
             await page.emulateMedia('screen');
             await page.setViewport({ width: 1280, height: 720 });
 
