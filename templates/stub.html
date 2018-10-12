@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unblocker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="limitedeternity">
+    <script>
+    (function() {
+        // This page is also used as an error page on Heroku which displays it as an iframe
+        if (parent !== window) {
+            var fallbackUrlQuery = new URL(document.referrer).searchParams.get("url");
+            var fallbackUrlObject = void 0;
+
+            if (/magnet:\?xt=urn:[a-z0-9]+:[a-zA-Z0-9]*/.test(atob(fallbackUrlQuery))) {
+                fallbackUrlObject = {
+                    get href() {
+                        return atob(fallbackUrlQuery);
+                    }
+                }
+
+            } else {
+                fallbackUrlObject = new URL(atob(fallbackUrlQuery));
+            }
+
+            parent.location.href = fallbackUrlObject.href;
+        }
+    })();
+    </script>
+</head>
+<body>
+</body>
+</html>

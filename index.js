@@ -51,7 +51,13 @@ app.get('/', async (req, res) => {
 
             if (entryStillValid) {
                 if (shouldDisplay) {
-                    return res.redirect(`/view?pdf=${entry}`);
+                    res.status(200);
+                    res.set({
+                        'Content-Type': 'application/pdf',
+                        'Content-Disposition': 'inline; filename="render.pdf"'
+                    });
+
+                    return utils.streamFile({ writableStream: res, file: entry });
                 }
 
                 return res.status(200).json({ success: true, pdfLocation: entry, fromCache: true });
@@ -79,22 +85,35 @@ app.get('/', async (req, res) => {
             let { pdfDestination } = await render({ url: targetUrl.href, linkBase: linkBase });
 
             if (pdfDestination) {
-                let { failed, uploadResult } = await utils.upload({ file: pdfDestination });
+                let { failed, uploadResult } = await utils.uploadFile(pdfDestination);
 
                 if (!failed && uploadResult.success) {
-                    fs.unlinkSync(pdfDestination);
-
                     let uploadUrl = uploadResult.files[0].url;
                     RENDER_CACHE.setKey(targetUrl.href, uploadUrl);
 
                     if (shouldDisplay) {
-                        return res.redirect(`/view?pdf=${uploadUrl}`);
+                        res.status(200);
+                        res.set({
+                            'Content-Type': 'application/pdf',
+                            'Content-Disposition': 'inline; filename="render.pdf"'
+                        });
+
+                        return utils.streamFile({ writableStream: res, file: fs.createReadStream(pdfDestination) });
                     }
 
                     return res.status(200).json({ success: true, pdfLocation: uploadUrl, fromCache: false });
 
                 } else {
-                    fs.unlinkSync(pdfDestination);
+                    if (shouldDisplay) {
+                        res.status(200);
+                        res.set({
+                            'Content-Type': 'application/pdf',
+                            'Content-Disposition': 'inline; filename="render.pdf"'
+                        });
+
+                        return utils.streamFile({ writableStream: res, file: fs.createReadStream(pdfDestination) });
+                    }
+
                     return res.status(503).json({ success: false, reason: "UploadFailed" });
                 }
 
@@ -109,14 +128,6 @@ app.get('/', async (req, res) => {
     } catch (e) {
         return res.status(400).json({ success: false, reason: "InvalidURL" });
     }
-});
-
-app.get('/view', (req, res) => {
-    if (req.query.pdf) {
-        return res.sendFile(path.join(process.cwd(), 'templates', 'view.html'));
-    }
-
-    return res.status(400).end();
 });
 
 

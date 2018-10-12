@@ -13,22 +13,16 @@ const pool = initPuppeteerPool({
             '--disable-setuid-sandbox',
             '--disable-gpu',
             '--disable-dev-shm-usage',
-            '--disable-sync',
-            '--disable-translate',
-            '--disable-extensions',
-            '--disable-default-apps',
             '--proxy-server="direct://"',
-            '--proxy-bypass-list=*',
-            '--mute-audio',
-            '--hide-scrollbars'
+            '--proxy-bypass-list=*'
         ]
     }
 });
 
-module.exports = async ({ url, linkBase }) => {
-    return new Promise((result, reject) => {
+module.exports = ({ url, linkBase }) => {
+    return new Promise(resolve => {
         pool.use(async browser => {
-            var page = await browser.newPage();
+            const page = await browser.newPage();
 
             await page.setDefaultNavigationTimeout(10000);
             await page._client.send('Page.setDownloadBehavior', { behavior: 'deny' });
@@ -41,7 +35,7 @@ module.exports = async ({ url, linkBase }) => {
 
             page.on('error', () => {
                 page.close();
-                return result({ pdfDestination: null });
+                return resolve({ pdfDestination: null });
             });
 
             try {
@@ -49,17 +43,17 @@ module.exports = async ({ url, linkBase }) => {
                     waitUntil: 'domcontentloaded'
                 });
 
-                await page.evaluate(async ({ linkBase }) => {
-                    await new Promise(resolve => {
-                        var links = document.querySelectorAll('a[href]');
+                await page.evaluate(`
+                    new Promise(resolve => {
+                        let links = document.querySelectorAll('a[href]');
 
                         for (let i = 0; i < links.length; i++) {
                             try {
                                 if (/magnet:\?xt=urn:[a-z0-9]+:[a-zA-Z0-9]*/.test(links[i].href)) {
-                                    links[i].href = `${linkBase}?url=${btoa(links[i].href)}`;
+                                    links[i].href = "${linkBase}?url=" + btoa(links[i].href);
 
                                 } else {
-                                    links[i].href = `${linkBase}?url=${btoa(new URL(links[i].href, location.href).href)}`;
+                                    links[i].href = "${linkBase}?url=" + btoa(new URL(links[i].href, location.href).href);
                                 }
 
                             } catch (e) {
@@ -69,10 +63,9 @@ module.exports = async ({ url, linkBase }) => {
 
                         return resolve(true);
                     });
+                `);
 
-                }, { linkBase });
-
-                var output = path.join(process.cwd(), 'tmp', crypto.randomBytes(20).toString('hex') + '.pdf');
+                let output = path.join(process.cwd(), 'tmp', `${crypto.randomBytes(20).toString('hex')}.pdf`);
 
                 await page.pdf({
                     path: output,
@@ -81,12 +74,12 @@ module.exports = async ({ url, linkBase }) => {
                 });
 
                 page.close();
-                return result({ pdfDestination: output });
+                return resolve({ pdfDestination: output });
 
             } catch (e) {
                 console.log(e);
                 page.close();
-                return result({ pdfDestination: null });
+                return resolve({ pdfDestination: null });
             }
         });
     });
