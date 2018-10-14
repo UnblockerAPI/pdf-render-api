@@ -85,10 +85,10 @@ app.get('/', async (req, res) => {
             let { pdfDestination } = await render({ url: targetUrl.href, linkBase: linkBase });
 
             if (pdfDestination) {
-                let { failed, uploadResult } = await utils.uploadFile(pdfDestination);
+                let uploadResult = await utils.uploadFile(pdfDestination);
 
-                if (!failed && uploadResult.success) {
-                    let uploadUrl = uploadResult.files[0].url;
+                if (uploadResult.success) {
+                    let uploadUrl = uploadResult.url;
                     RENDER_CACHE.setKey(targetUrl.href, uploadUrl);
 
                     if (shouldDisplay) {
