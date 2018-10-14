@@ -89,7 +89,7 @@ app.get('/', async (req, res) => {
 
                 if (uploadResult.success) {
                     let uploadUrl = uploadResult.url;
-                    RENDER_CACHE.setKey(targetUrl.href, uploadUrl);
+                    RENDER_CACHE.setKey(targetUrl.href, uploadUrl, uploadResult.ttl);
 
                     if (shouldDisplay) {
                         res.status(200);

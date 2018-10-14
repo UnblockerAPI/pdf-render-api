@@ -9,8 +9,9 @@ module.exports =
             };
         }
 
-        static get fileHostName() { return 'RokketSpace' }
-        get fileHostName() { return 'RokketSpace' }
+        static get fileHostName() { return 'RokketSpace'; }
+        get fileHostName() { return 'RokketSpace'; }
+        get fileTTL() { return 60 * 60 * 24 * 2; }
 
         upload(file) {
             return new Promise(resolve => {
@@ -27,7 +28,8 @@ module.exports =
 
                         this.uploadResult = {
                             success: tempRes.success,
-                            url: tempRes.files[0].url
+                            url: tempRes.files[0].url,
+                            ttl: this.fileTTL
                         };
                     }
 

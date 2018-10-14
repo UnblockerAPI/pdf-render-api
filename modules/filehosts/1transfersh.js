@@ -10,8 +10,9 @@ module.exports =
             };
         }
 
-        static get fileHostName() { return 'TransferSh' }
-        get fileHostName() { return 'TransferSh' }
+        static get fileHostName() { return 'TransferSh'; }
+        get fileHostName() { return 'TransferSh'; }
+        get fileTTL() { return 60 * 60 * 24 * 14; }
 
         upload(file) {
             return new Promise(resolve => {
@@ -23,7 +24,8 @@ module.exports =
                     if (!err && !String(httpResponse.statusCode).match(/^(4|5)\d{2}$/)) {
                         this.uploadResult = {
                             success: true,
-                            url: body
+                            url: body,
+                            ttl: this.fileTTL
                         };
                     }
 

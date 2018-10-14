@@ -6,8 +6,8 @@ module.exports = isProduction => {
             this.client = redis.createClient({ url: process.env.REDIS_URL });
         }
 
-        setKey(key, value) {
-            return this.client.set(key, value, 'EX', 60 * 60 * 24 * 14);
+        setKey(key, value, ttl) {
+            return this.client.set(key, value, 'EX', ttl);
         }
 
         deleteKey(key) {
