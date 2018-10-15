@@ -11,6 +11,8 @@ module.exports =
 
         static get fileHostName() { return 'RokketSpace'; }
         get fileHostName() { return 'RokketSpace'; }
+
+        static get fileTTL() { return 60 * 60 * 24 * 2; }
         get fileTTL() { return 60 * 60 * 24 * 2; }
 
         upload(file) {

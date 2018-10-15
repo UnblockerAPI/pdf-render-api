@@ -12,6 +12,8 @@ module.exports =
 
         static get fileHostName() { return 'TransferSh'; }
         get fileHostName() { return 'TransferSh'; }
+
+        static get fileTTL() { return 60 * 60 * 24 * 14; }
         get fileTTL() { return 60 * 60 * 24 * 14; }
 
         upload(file) {

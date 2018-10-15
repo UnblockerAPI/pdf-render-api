@@ -1,6 +1,8 @@
 const fs = require('fs');
 const request = require('request');
 
+const fileHosts = require('./filehosts');
+
 module.exports = {
     checkAvailability(url) {
         return new Promise(resolve => {
@@ -54,7 +56,7 @@ module.exports = {
         return new Promise(async resolve => {
             let uploadResult;
 
-            for (let fileHost of Object.values(require('./filehosts'))) {
+            for (let fileHost of Object.values(fileHosts)) {
                 uploadResult = await fileHost.upload(filePath);
 
                 if (uploadResult.success) break;
