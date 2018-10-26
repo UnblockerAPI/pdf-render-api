@@ -25,7 +25,7 @@ module.exports =
                     }
                 },
                 (err, httpResponse, body) => {
-                    if (!err || !String(httpResponse.statusCode).match(/^(4|5)\d{2}$/)) {
+                    if (!err && !String(httpResponse.statusCode).match(/^(4|5)\d{2}$/)) {
                         let tempRes = JSON.parse(body);
 
                         this.uploadResult = {
