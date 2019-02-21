@@ -1,11 +1,11 @@
-const requireDir = require('require-dir');
+const requireDir = require("require-dir");
 
-module.exports = requireDir('.', {
-    mapKey(value, baseName) {
-        return value.fileHostName;
-    },
+module.exports = requireDir(".", {
+  mapKey(value, baseName) {
+    return value.fileHostName;
+  },
 
-    mapValue(value, baseName) {
-        return new value();
-    }
+  mapValue(value, baseName) {
+    return new value();
+  }
 });
