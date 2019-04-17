@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 const genericPool = require("generic-pool");
 
 const initPuppeteerPool = ({
-  max = 10,
+  max = 3,
   min = 1,
   idleTimeoutMillis = 30000,
   maxUses = 50,
