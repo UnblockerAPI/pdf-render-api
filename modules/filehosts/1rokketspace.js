@@ -1,14 +1,17 @@
 const fs = require("fs");
 const request = require("request");
 
-module.exports = class DmcaGripe {
+module.exports = class RokketSpace {
     static upload(file) {
         return new Promise(
             resolve => {
                 request(
                     {
                         method: "POST",
-                        uri: "https://dmca.gripe/api/upload",
+                        uri: "https://rokket.space/api/upload",
+                        headers: {
+                            "token": process.env.ROKKET_API_TOKEN
+                        },
                         formData: {
                             "files[]": fs.createReadStream(file)
                         },
@@ -20,7 +23,7 @@ module.exports = class DmcaGripe {
                             return resolve({
                                 success: tempRes.success,
                                 url: tempRes.files[0].url,
-                                ttl: Infinity
+                                ttl: 60 * 60 * 24 * 2
                             });
                         }
 

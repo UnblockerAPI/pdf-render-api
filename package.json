@@ -23,17 +23,17 @@
     "url": "https://github.com/UnblockerAPI/pdf-render-api/issues"
   },
   "engines": {
-    "node": "11.10.0",
-    "npm": "6.8.0"
+    "node": "12.2.0",
+    "npm": "6.9.0"
   },
   "homepage": "https://github.com/UnblockerAPI/pdf-render-api#readme",
   "dependencies": {
-    "compression": "^1.7.3",
+    "compression": "^1.7.4",
     "cross-env": "^5.2.0",
-    "express": "^4.16.4",
-    "generic-pool": "^3.6.1",
-    "helmet": "^3.15.1",
-    "puppeteer": "^1.12.2",
+    "express": "^4.17.1",
+    "generic-pool": "^3.7.1",
+    "helmet": "^3.18.0",
+    "puppeteer": "^1.18.0",
     "redis": "^2.8.0",
     "request": "^2.88.0",
     "require-dir": "^1.2.0"
