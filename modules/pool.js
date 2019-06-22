@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-extra").use(require("puppeteer-extra-plugin-stealth")());
 const genericPool = require("generic-pool");
 
 const initPuppeteerPool = (
