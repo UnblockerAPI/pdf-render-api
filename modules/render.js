@@ -43,7 +43,7 @@ module.exports = ({ url, linkBase }) => {
                     );
 
                     try {
-                        await page.goto(url, { waitUntil: "domcontentloaded" });
+                        await page.goto(url, { waitUntil: "networkidle2" });
                         await page.evaluate(`
                             new Promise(resolve => {
                                 let links = document.querySelectorAll('a[href]');
