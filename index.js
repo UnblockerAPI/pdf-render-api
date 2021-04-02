@@ -6,7 +6,7 @@ const fs = require("fs");
 let isProduction = process.env.NODE_ENV === "production";
 let PORT = isProduction ? "/tmp/nginx.socket" : 8080;
 let linkBase = isProduction
-    ? "https://unblocker.now.sh"
+    ? "https://unblocker.vercel.app"
     : `http://127.0.0.1:${PORT}`;
 let callbackFn = () => {
     if (isProduction) {
