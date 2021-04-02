@@ -51,10 +51,10 @@ module.exports = ({ url, linkBase }) => {
                                 for (let i = 0; i < links.length; i++) {
                                     try {
                                         if (/magnet:\?xt=urn:[a-z0-9]+:[a-zA-Z0-9]*/.test(links[i].href)) {
-                                            links[i].href = "${linkBase}?url=" + btoa(links[i].href);
+                                            links[i].href = "${linkBase}/" + btoa(links[i].href);
 
                                         } else {
-                                            links[i].href = "${linkBase}?url=" + btoa(new URL(links[i].href, location.href).href);
+                                            links[i].href = "${linkBase}/" + btoa(new URL(links[i].href, location.href).href);
                                         }
 
                                     } catch (e) {
