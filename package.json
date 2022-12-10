@@ -30,7 +30,7 @@
   "dependencies": {
     "compression": "^1.7.4",
     "cross-env": "^7.0.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "generic-pool": "^3.7.2",
     "helmet": "^4.4.1",
     "puppeteer": "^1.18.0",
